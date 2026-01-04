@@ -40,6 +40,7 @@ This project utilizes the **METABRIC** dataset to identify high-risk genomic and
 This project follows a systematic naming convention for reproducibility:
 - **`model_1.ipynb`**: The **First Approach** using Classical Machine Learning (Random Survival Forests).
 - **`model_2.ipynb`**: The **New Approach** using Deep Learning (DeepSurv).
+- **`model_3_survival_ensemble.ipynb`**: The **Winning Approach** using 5-Fold Cross-Validation Ensemble of Self-Normalizing Neural Networks (SNNs) + Iterative Imputation.
 *Future iterations will be numbered sequentially.*
 
 ---
