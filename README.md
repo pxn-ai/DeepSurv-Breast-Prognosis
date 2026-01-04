@@ -36,6 +36,12 @@ This project utilizes the **METABRIC** dataset to identify high-risk genomic and
 - **Interpretability**: Permutation importance analysis to identify key risk drivers.
 - **Robust Preprocessing**: Handles missing clinical data and right-censored survival targets.
 
+### 🔢 Model Versioning
+This project follows a systematic naming convention for reproducibility:
+- **`model_1.ipynb`**: The **First Approach** using Classical Machine Learning (Random Survival Forests).
+- **`model_2.ipynb`**: The **New Approach** using Deep Learning (DeepSurv).
+*Future iterations will be numbered sequentially.*
+
 ---
 
 ## 📊 Performance
