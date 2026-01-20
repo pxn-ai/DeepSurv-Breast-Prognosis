@@ -1,4 +1,4 @@
-![DeepSurv Breast Prognosis Banner](deep_surv_banner.png)
+![DeepSurv Breast Prognosis Banner](bin/deep_surv_banner.png)
 
 <div align="center">
 
@@ -9,6 +9,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-EE4C2C?style=for-the-badge&logo=pytorch)](https://pytorch.org/)
 [![Scikit-Survival](https://img.shields.io/badge/Scikit--Survival-ML-green?style=for-the-badge)](https://scikit-survival.readthedocs.io/en/stable/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+[![Git LFS](https://img.shields.io/badge/Git%20LFS-Enabled-orange?style=for-the-badge)](https://git-lfs.github.com/)
 
 </div>
 
@@ -33,15 +34,49 @@ This project utilizes the **METABRIC** dataset to identify high-risk genomic and
 ### 🚀 Key Features
 - **Dual-Model Approach**: Benchmarks Random Survival Forests against Deep Neural Networks.
 - **Time-to-Event Prediction**: Estimates survival probability over continuous time (e.g., 5-year survival).
-- **Interpretability**: Permutation importance analysis to identify key risk drivers.
+- **Interpretability**: Permutation importance and SHAP analysis to identify key risk drivers.
 - **Robust Preprocessing**: Handles missing clinical data and right-censored survival targets.
+- **GPU-Accelerated Training**: Optimized for CUDA-enabled systems.
 
 ### 🔢 Model Versioning
 This project follows a systematic naming convention for reproducibility:
-- **`model_1.ipynb`**: The **First Approach** using Classical Machine Learning (Random Survival Forests).
-- **`model_2.ipynb`**: The **New Approach** using Deep Learning (DeepSurv).
-- **`model_3_survival_ensemble.ipynb`**: The **Winning Approach** using 5-Fold Cross-Validation Ensemble of Self-Normalizing Neural Networks (SNNs) + Iterative Imputation.
-*Future iterations will be numbered sequentially.*
+- **`bin/model_1.ipynb`**: Classical Machine Learning approach using **Random Survival Forests**
+- **`bin/model_2.ipynb`**: Deep Learning approach using **DeepSurv Neural Network**
+- **`bin/model_4.ipynb`**: Advanced ensemble methods with hyperparameter tuning
+- **`ByteRunners_Notebook.ipynb`**: **Final Competition Submission** - Complete pipeline with all models
+
+*Model iterations are numbered sequentially for tracking development progress.*
+
+---
+
+## 📁 Repository Structure
+```
+DeepSurv-Breast-Prognosis/
+├── bin/                          # Model notebooks and resources
+│   ├── model_1.ipynb             # Random Survival Forest implementation
+│   ├── model_2.ipynb             # DeepSurv neural network
+│   ├── model_4.ipynb             # Advanced ensemble methods
+│   ├── model_3.html              # Exported model results
+│   ├── model_4.html              # Exported model results
+│   └── deep_surv_banner.png      # Project banner
+├── data/                         # Processed datasets
+│   ├── brca_metabric_clinical_data.tsv
+│   ├── choosen_data.csv          # Selected features for modeling
+│   └── clinical_data_columns.csv
+├── brca_metabric/                # Raw METABRIC dataset (Git LFS)
+│   ├── data_mrna_illumina_microarray.txt
+│   ├── data_methylation_promoters_rrbs.txt
+│   ├── data_cna.txt
+│   ├── data_clinical_patient.txt
+│   └── ...                       # Additional data files
+├── ByteRunners_Folder/           # Competition submission files
+│   ├── ByteRunners_Notebook.ipynb
+│   ├── ByteRunners_Notebook.ipynb.html
+│   └── ByteRunners_Report.docx
+├── ByteRunners_Notebook.ipynb    # Main competition notebook
+├── *.png                         # Visualization outputs
+└── README.md
+```
 
 ---
 
@@ -61,8 +96,10 @@ Our models have been rigorously evaluated using the **Concordance Index (C-Index
 We utilize the **Molecular Taxonomy of Breast Cancer International Consortium (METABRIC)** dataset.
 - **Source**: [cBioPortal](https://www.cbioportal.org/study/summary?id=brca_metabric)
 - **Samples**: ~1,900 patients
-- **Features**: Gene expression profiles + Clinical attributes (Age, Tumor Stage, treatments).
-- **Target**: Overall Survival (Months) + Vital Status.
+- **Features**: Gene expression profiles + Clinical attributes (Age, Tumor Stage, treatments)
+- **Target**: Overall Survival (Months) + Vital Status
+
+> ⚠️ **Note**: The `brca_metabric/` folder contains large data files (~1.3 GB) stored using **Git LFS**. Make sure you have Git LFS installed to clone the full dataset.
 
 ---
 
@@ -70,41 +107,67 @@ We utilize the **Molecular Taxonomy of Breast Cancer International Consortium (M
 
 ### Prerequisites
 - Python 3.8+
-- PyTorch
+- PyTorch (with CUDA support recommended)
 - Scikit-learn & Scikit-survival
+- Git LFS (for large data files)
 
 ### Setup
 ```bash
-# Clone the repository
-git clone https://github.com/ByteRunners/DeepSurv-Breast-Prognosis.git
+# Install Git LFS first (if not installed)
+# macOS: brew install git-lfs
+# Ubuntu: sudo apt-get install git-lfs
+
+# Initialize Git LFS
+git lfs install
+
+# Clone the repository (includes LFS files)
+git clone https://github.com/pxn-ai/DeepSurv-Breast-Prognosis.git
 cd DeepSurv-Breast-Prognosis
 
-# Install dependencies
-pip install torch scikit-survival pandas matplotlib seaborn
+# Install Python dependencies
+pip install torch scikit-survival pandas matplotlib seaborn shap
 ```
 
 ### Running the Analysis
 1. **Model 1 (Random Survival Forest)**:
    ```bash
-   # Run the notebook to train RSF and see permutation importance
-   jupyter notebook model_1.ipynb
+   jupyter notebook bin/model_1.ipynb
    ```
 2. **Model 2 (DeepSurv)**:
    ```bash
-   # Run the deep learning pipeline
-   jupyter notebook model_2.ipynb
+   jupyter notebook bin/model_2.ipynb
+   ```
+3. **Full Competition Pipeline**:
+   ```bash
+   jupyter notebook ByteRunners_Notebook.ipynb
    ```
 
 ---
 
 ## 📈 Visualizations
 The project generates critical medical insights:
-- **Survival Curves**: Predicted survival probability over 200+ months for individual patients.
-- **Feature Importance**: Identifying whether "Tumor Size" or "Age" contributes more to risk.
+
+| Visualization | Description |
+| :--- | :--- |
+| **Model Comparison** | Side-by-side C-Index comparison across all models |
+| **Feature Importance** | Permutation-based importance ranking |
+| **SHAP Analysis** | Interpretable feature contributions |
+| **Survival Curves** | Predicted survival probability over 200+ months |
+| **Correlation Matrix** | Feature interaction analysis |
+
+<p align="center">
+  <img src="model_comparison_gpu.png" width="45%" alt="Model Comparison"/>
+  <img src="feature_importance_gpu.png" width="45%" alt="Feature Importance"/>
+</p>
 
 ---
 
 ## 🤝 Acknowledgements
-- **BioFusion Hackathon 2026** organizers.
-- **cBioPortal** for open-access cancer genomics data.
-- The open-source community behind `scikit-survival` and `pytorch`.
+- **BioFusion Hackathon 2026** organizers
+- **cBioPortal** for open-access cancer genomics data
+- The open-source community behind `scikit-survival`, `pytorch`, and `shap`
+
+---
+
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
