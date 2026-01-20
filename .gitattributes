@@ -1,0 +1,2 @@
+*.txt filter=lfs diff=lfs merge=lfs -text
+brca_metabric/*.txt filter=lfs diff=lfs merge=lfs -text
